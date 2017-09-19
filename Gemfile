@@ -7,7 +7,6 @@ end
 
 gem "rspec-rails"
 gem "slim-rails"
-gem "searchkick"
 gem "jquery-rails"
 gem 'rails', '~> 5.1.3'
 gem 'sqlite3'
