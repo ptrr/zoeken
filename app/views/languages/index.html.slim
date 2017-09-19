@@ -1,0 +1,43 @@
+.row
+  .col-md-12
+    .card
+      .card-body
+        .card-title
+          h4 Languages
+
+        .card-body
+          = form_tag languages_path, class: "", method: :get do
+            .input-group
+              - if params[:query].present?
+                .input-group-btn
+                  = link_to "clear", languages_path, class: "btn btn-default"
+              = text_field_tag :query, params[:query], class: "form-control", id: "language_search", autocomplete: "off"
+              .input-group-btn
+                = submit_tag "Search", class: "btn btn-primary"
+
+      ul.list-group.language-results.list-group-flush
+        - @languages.each do |lang|
+          li.list-group-item.list-group-item.list-group-item-action.flex-column.align-items-startV
+            .d-flex.w-100.justify-content-between
+              h5= lang.name
+            .mb-1
+              p= lang.designed_by
+              small= lang.type
+
+
+        javascript:
+          $(document).on('turbolinks:load', function(){
+            var languages = new Bloodhound({
+              datumTokenizer: Bloodhound.tokenizers.whitespace,
+              queryTokenizer: Bloodhound.tokenizers.whitespace,
+              remote: {
+                url: '/languages/search?query=%QUERY',
+                wildcard: '%QUERY'
+              }
+            });
+            $('#language_search').typeahead(null, {
+              source: languages, display: "name"
+            });
+          })
+         
+
